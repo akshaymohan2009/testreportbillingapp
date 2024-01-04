@@ -277,7 +277,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AddressForm() {
+export default function Dog() {
     const [formData, setFormData] = React.useState('');
     const [open, setOpen] = React.useState(false);
     const [state, dispatch] = React.useReducer(testResultReducer, initialState);
@@ -337,7 +337,7 @@ export default function AddressForm() {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Patient Details
+                Dog Details
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={4}>
