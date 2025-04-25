@@ -53,7 +53,7 @@ const initialState = {
     Granulocytes: {
         testName: "Granulocytes",
         testUnit: '10^g/L',
-        lowValue: 1.0,
+        lowValue: 1.02,
         highValue: 7.56,
     },
     Lymophocytes: {
@@ -74,8 +74,8 @@ const initialState = {
     //     lowValue: 0.00,
     //     highValue: 1.50,
     // },
-    gran: {
-        testName: "gran %",
+    Gran: {
+        testName: "Gran %",
         lowValue: 0.102,
         highValue: 0.631,
     },
@@ -187,8 +187,8 @@ const testResultReducer = (state, action) => {
         case 'WBC_RESULT':
             state["WBC"]["testValue"] = action.payload.value
             return { ...state };
-        case "NEUTROPHILS_RESULT":
-            state["Neutrophils"]["testValue"] = action.payload.value
+        case "GRANULOCYTE_RESULT":
+            state["Granulocytes"]["testValue"] = action.payload.value
             return { ...state };
         case "LYMPHOCYTES_RESULT":
             state["Lymophocytes"]["testValue"] = action.payload.value
@@ -196,11 +196,11 @@ const testResultReducer = (state, action) => {
         case "MONOCYTES_RESULT":
             state["Monocytes"]["testValue"] = action.payload.value
             return { ...state };
-        case "EOSINOPHILS_RESULT":
-            state["Eosinophils"]["testValue"] = action.payload.value
-            return { ...state };
-        case "NEU_RESULT":
-            state["Neu"]["testValue"] = action.payload.value
+        // case "EOSINOPHILS_RESULT":
+        //     state["Eosinophils"]["testValue"] = action.payload.value
+        //     return { ...state };
+        case "GRAN_RESULT":
+            state["Gran"]["testValue"] = action.payload.value
             return { ...state };
         case "LYM_RESULT":
             state["Lym"]["testValue"] = action.payload.value
@@ -208,9 +208,9 @@ const testResultReducer = (state, action) => {
         case "MON_RESULT":
             state["Mon"]["testValue"] = action.payload.value
             return { ...state };
-        case "EOS_RESULT":
-            state["Eos"]["testValue"] = action.payload.value
-            return { ...state };
+        // case "EOS_RESULT":
+        //     state["Eos"]["testValue"] = action.payload.value
+        //     return { ...state };
         case "Hemoglobin_RESULT":
             state["Hemoglobin"]["testValue"] = action.payload.value
             return { ...state };
@@ -290,14 +290,14 @@ export default function Cow() {
     console.log(state)
     const rows = [
         createData('WBC', <TextField name="wbcTest" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "WBC_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="6.00-17.00" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
-        createData('Neutrophils', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "NEUTROPHILS_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Granulocytes', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "GRANULOCYTE_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('Lymphocytes', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "LYMPHOCYTES_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('Monocytes', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "MONOCYTES_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
-        createData('Eosionphils', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "EOSINOPHILS_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
-        createData('neu %', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "NEU_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        // createData('Eosionphils', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "EOSINOPHILS_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Gran %', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "GRAN_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('Lym %', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "LYM_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('Mon %', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "MON_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
-        createData('Eos %', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "EOS_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        // createData('Eos %', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "EOS_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('RBC', <TextField name="rbcTest" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "RBC_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="5.10-8.5" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('Hemoglobin (HGB)', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "Hemoglobin_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('Hemotocrit Value (HCT)', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "HCT_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
