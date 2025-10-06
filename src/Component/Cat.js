@@ -32,6 +32,161 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import PdfViewer from '../reactPdf/PDFViewer';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import FormGroup from '@mui/material/FormGroup';
+import FormLabel from '@mui/material/FormLabel';
+
+const kidneyInitialState = {
+    ["SERUM_CREATININE"]: {
+        testName: "Serum Creatinine",
+        testInterval: '0.5-1.7',
+        testUnit: 'mg/dl',
+        lowValue: 0.5,
+        highValue: 1.7,
+    },
+    ["URIC_ACID"]: {
+        testName: "Uric Acid",
+        testInterval: '0-1',
+        testUnit: 'mg/dl',
+        lowValue: 0,
+        highValue: 1,
+    },
+    ["BLOOD_UREA_NITROGEN"]: {
+        testName: "Blood Urea Nitrogen",
+        testInterval: '8-28',
+        testUnit: 'mg/dl',
+        lowValue: 8,
+        highValue: 28,
+    },
+    ["BUN_CREATININE_RATIO"]: {
+        testName: "Bun Creatinine ratio",
+        testInterval: '8-28',
+        testUnit: 'mg/dl',
+        lowValue: 8,
+        highValue: 28,
+    },
+}
+const kidneyChangeHander = (kidneyState, action) => {
+    switch (action.type) {
+        case 'SERUM_CREATININE':
+            kidneyState["SERUM_CREATININE"]["testValue"] = action.payload.value
+            return { ...kidneyState };
+        case 'URIC_ACID':
+            kidneyState["URIC_ACID"]["testValue"] = action.payload.value
+            return { ...kidneyState };
+        case "BLOOD_UREA_NITROGEN":
+            kidneyState["BLOOD_UREA_NITROGEN"]["testValue"] = action.payload.value
+            return { ...kidneyState };
+        case "BUN_CREATININE_RATIO":
+            kidneyState["BUN_CREATININE_RATIO"]["testValue"] = action.payload.value
+            return { ...kidneyState };
+        default:
+            return kidneyState
+    }
+}
+
+const liverChangeHander = (liverState, action) => {
+    switch (action.type) {
+        case 'TBILIRUBIN_RESULT':
+            liverState["TBILIRUBIN_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case 'DBILIRUBIN_RESULT':
+            liverState["DBILIRUBIN_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "SGOT_RESULT":
+            liverState["SGOT_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "SGPT_RESULT":
+            liverState["SGPT_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "ALK_PHOS_RESULT":
+            liverState["ALK_PHOS_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "TOLPROTEIN_RESULT":
+            liverState["TOLPROTEIN_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "ALBUMIN_RESULT":
+            liverState["ALBUMIN_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "GLOBULIN_RESULT":
+            liverState["GLOBULIN_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        case "AGRATIO_RESULT":
+            liverState["AGRATIO_RESULT"]["testValue"] = action.payload.value
+            return { ...liverState };
+        default:
+            return liverState;
+    }
+}
+const LiverInitialState = {
+    ["TBILIRUBIN_RESULT"]: {
+        testName: "Total Bilirubin",
+        testInterval: '0-0.2',
+        testUnit: 'mg/dl',
+        lowValue: 0,
+        highValue: 0.2,
+    },
+    ["DBILIRUBIN_RESULT"]: {
+        testName: "Direct Bilirubin",
+        testInterval: '0-0.1',
+        testUnit: 'mg/dl',
+        lowValue: 0,
+        highValue: 0.1,
+    },
+    SGOT_RESULT: {
+        testName: "SGOT (AST)",
+        testInterval: '13-15',
+        testUnit: 'IU/L',
+        lowValue: 13,
+        highValue: 15,
+    },
+    SGPT_RESULT: {
+        testName: "SGPT (ALT)",
+        testInterval: '10-109',
+        testUnit: 'IU/L',
+        lowValue: 10,
+        highValue: 109,
+    },
+    ["ALK_PHOS_RESULT"]: {
+        testName: "Alkaline Phospate",
+        testInterval: '1-114',
+        testUnit: 'IU/L',
+        lowValue: 1,
+        highValue: 114,
+    },
+    ["TOLPROTEIN_RESULT"]: {
+        testName: "Total Protein",
+        testInterval: '5.4-7.5',
+        testUnit: 'gm/dl',
+        lowValue: 5.4,
+        highValue: 7.5,
+    },
+    ["ALBUMIN_RESULT"]: {
+        testName: "Albumin",
+        testInterval: '2.3-3.1',
+        testUnit: 'g/dl',
+        lowValue: 2.3,
+        highValue: 3.1,
+    },
+    ["GLOBULIN_RESULT"]: {
+        testName: "Globulin",
+        testInterval: '2.5-4.5',
+        testUnit: 'g/dl',
+        lowValue: 2.5,
+        highValue: 4.5,
+    },
+    ["AGRATIO_RESULT"]: {
+        testName: "A/G Ratio",
+        testInterval: '0.8-2.0',
+        testUnit: '-',
+        lowValue: 0.8,
+        highValue: 2.0,
+    },
+}
+
 
 const initialState = {
     WBC: {
@@ -158,19 +313,7 @@ const initialState = {
         testUnit: 'mL/L',
         lowValue: 0.90,
         highValue: 7.0,
-    },
-    PLCC: {
-        testName: "P - LCC",
-        testUnit: '10^9/L',
-        lowValue: 25,
-        highValue: 148,
-    },
-    PLCR: {
-        testName: "P - LCR",
-        lowValue: 0.115,
-        highValue: 0.550,
-    },
-
+    }
 
 };
 const testResultReducer = (state, action) => {
@@ -280,7 +423,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Cat() {
     const [formData, setFormData] = React.useState('');
     const [open, setOpen] = React.useState(false);
+    const [testWanted, setTestWanted] = React.useState('');
     const [state, dispatch] = React.useReducer(testResultReducer, initialState);
+    const [liverState, LiverDispatch] = React.useReducer(liverChangeHander, LiverInitialState);
+    const [KidneyState, kidneyDispatch] = React.useReducer(kidneyChangeHander, kidneyInitialState);
     console.log(state)
     const rows = [
         createData('WBC', <TextField name="wbcTest" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "WBC_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="6.00-17.00" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
@@ -304,10 +450,33 @@ export default function Cat() {
         createData('MPV', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "MPV_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('PDW', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "PDW_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
         createData('PCT', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "PCT_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
-        createData('P - LCC', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "PLCC_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
-        createData('P - LCR', <TextField name="neutrophils" id="outlined-basic" onChange={(e) => { resultChangeHander(e, "PLCR_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="3.20-12.30" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
 
     ];
+    const liverRow = [
+        createData('Total Bilirubin', <TextField name="tbilirubin" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "TBILIRUBIN_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="0-0.2" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Direct Bilirubin', <TextField name="dbilirubin" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "DBILIRUBIN_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="0-0.1" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('SGOT (AST)', <TextField name="sgot" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "SGOT_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="13-15" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('SGPT (ALT)', <TextField name="sgpt" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "SGPT_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="10-109" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Alkaline Phosphate', <TextField name="alkalinephosphate" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "ALK_PHOS_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="1-114" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Total Protein', <TextField name="totalprotein" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "TOLPROTEIN_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="5.4-7.5" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Albumin', <TextField name="albumin" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "ALBUMIN_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="2.3-3.1" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Globulin', <TextField name="globulin" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "GLOBULIN_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="2.5-4.5" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('A/G Ratio', <TextField name="agratio" id="outlined-basic" onChange={(e) => { resultLiverChangeHander(e, "AGRATIO_RESULT") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="0.8-2.0" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+    ]
+    const kidneyRow = [
+        createData('Serum Creatinine', <TextField name="S_CREATININE" id="outlined-basic" onChange={(e) => { resultKidneyChangeHander(e, "SERUM_CREATININE") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="0-0.2" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Uric Acid', <TextField name="U_ACID" id="outlined-basic" onChange={(e) => { resultKidneyChangeHander(e, "URIC_ACID") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="0-0.1" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Blood Urea Nitrogen', <TextField name="B_U_NITROGEN" id="outlined-basic" onChange={(e) => { resultKidneyChangeHander(e, "BLOOD_UREA_NITROGEN") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="13-15" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+        createData('Bun Creatinine Ratio', <TextField name="B_C_RATIO" id="outlined-basic" onChange={(e) => { resultKidneyChangeHander(e, "BUN_CREATININE_RATIO") }} label="Outlined" variant="outlined" />, <TextField id="outlined-basic" defaultValue="13-15" label="Outlined" variant="outlined" />, <FormControlLabel control={<Checkbox />} label="Label" />),
+
+    ]
+
+    function resultLiverChangeHander(event, test) {
+        LiverDispatch({ type: test, payload: { name: event.target.name, value: event.target.value } })
+    }
+    function resultKidneyChangeHander(event, test) {
+        kidneyDispatch({ type: test, payload: { name: event.target.name, value: event.target.value } })
+    }
     function resultChangeHander(event, test) {
         dispatch({ type: test, payload: { name: event.target.name, value: event.target.value } })
     }
@@ -318,6 +487,11 @@ export default function Cat() {
     const handleClose = () => {
         setOpen(false);
     };
+    function checkboxChangeHandler(e) {
+        setTestWanted((prevState) => {
+            return { ...prevState, [e.target.value]: e.target.checked }
+        })
+    }
     const handleChange = (event) => {
         setFormData((prevState) => {
             return {
@@ -423,7 +597,7 @@ export default function Cat() {
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                <TextField
+                    <TextField
                         required
                         id="Breed"
                         name="Breed"
@@ -447,30 +621,150 @@ export default function Cat() {
                         onChange={handleChange}
                     />
                 </Grid>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700, marginTop:'20px' }} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align="center">Test</StyledTableCell>
-                                <StyledTableCell align="center">Result</StyledTableCell>
-                                <StyledTableCell align="center">Reference Interval</StyledTableCell>
-                                <StyledTableCell align="center">Reference Range</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow key={row.name}>
-                                    <StyledTableCell align="center" component="th" scope="row">
-                                        {row.Test}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.Result}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.rangeInterval}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.rangeGraph}</StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <Grid item xs={12} sm={4}>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Label placement</FormLabel>
+                        <FormGroup aria-label="position" row>
+                            <FormControlLabel
+                                value="Complete Blood Count"
+                                control={<Checkbox color="success" />}
+                                label="Complete Blood Count"
+                                labelPlacement="end"
+                                onChange={checkboxChangeHandler}
+                            />
+                            <FormControlLabel
+                                value="liver function test"
+                                control={<Checkbox color="success" />}
+                                label="Liver Function Test"
+                                labelPlacement="end"
+                                onChange={checkboxChangeHandler}
+
+                            />
+                            <FormControlLabel
+                                value="Renal function test"
+                                control={<Checkbox color="success" />}
+                                label="Renal Function Test"
+                                labelPlacement="end"
+                                onChange={checkboxChangeHandler}
+
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </Grid>
+                {testWanted["Complete Blood Count"] != undefined && testWanted["Complete Blood Count"] == true && <Accordion slotProps={{ transition: { unmountOnExit: true } }} sx={{ minWidth: 700, marginTop: '20px' }}>
+                    <AccordionSummary
+                        expandIcon={<ArrowDownwardIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+
+                    >
+                        <Typography component="span">Complete Blood Count</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 700, marginTop: '20px' }} aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">Test</StyledTableCell>
+                                            <StyledTableCell align="center">Result</StyledTableCell>
+                                            <StyledTableCell align="center">Reference Interval</StyledTableCell>
+                                            <StyledTableCell align="center">Reference Range</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows.map((row) => (
+                                            <StyledTableRow key={row.name}>
+                                                <StyledTableCell align="center" component="th" scope="row">
+                                                    {row.Test}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">{row.Result}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.rangeInterval}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.rangeGraph}</StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>}
+                {testWanted["liver function test"] != undefined && testWanted["liver function test"] == true && <Accordion slotProps={{ transition: { unmountOnExit: true } }} sx={{ minWidth: 700, marginTop: '20px' }}>
+                    <AccordionSummary
+                        expandIcon={<ArrowDownwardIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+
+                    >
+                        <Typography component="span">Liver Function Test</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 700, marginTop: '20px' }} aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">Test</StyledTableCell>
+                                            <StyledTableCell align="center">Result</StyledTableCell>
+                                            <StyledTableCell align="center">Reference Interval</StyledTableCell>
+                                            <StyledTableCell align="center">Reference Range</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {liverRow.map((row) => (
+                                            <StyledTableRow key={row.name}>
+                                                <StyledTableCell align="center" component="th" scope="row">
+                                                    {row.Test}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">{row.Result}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.rangeInterval}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.rangeGraph}</StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>}
+                {testWanted["Renal function test"] != undefined && testWanted["Renal function test"] == true && <Accordion slotProps={{ transition: { unmountOnExit: true } }} sx={{ minWidth: 700, marginTop: '20px' }}>
+                    <AccordionSummary
+                        expandIcon={<ArrowDownwardIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+
+                    >
+                        <Typography component="span">Renal Function Test</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 700, marginTop: '20px' }} aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">Test</StyledTableCell>
+                                            <StyledTableCell align="center">Result</StyledTableCell>
+                                            <StyledTableCell align="center">Reference Interval</StyledTableCell>
+                                            <StyledTableCell align="center">Reference Range</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {kidneyRow.map((row) => (
+                                            <StyledTableRow key={row.name}>
+                                                <StyledTableCell align="center" component="th" scope="row">
+                                                    {row.Test}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">{row.Result}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.rangeInterval}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.rangeGraph}</StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>}
                 <Grid item xs={12}>
                     <Button
                         variant="contained"
@@ -504,7 +798,7 @@ export default function Cat() {
                             </Button>
                         </Toolbar>
                     </AppBar>
-                    <PdfViewer formData={formData} testResult={state} />
+                    <PdfViewer testWanted={testWanted} formData={formData} testResult={state} liverState={liverState} kidneyState={KidneyState}/>
                 </Dialog>
             </Grid>
         </React.Fragment>
